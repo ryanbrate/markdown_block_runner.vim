@@ -1,16 +1,16 @@
-# vimwiki_block_runner.vim
+# vimwiki\_block\_runner.vim
 
-A plugin to evaluate a code block defined within vimwiki, appending the printed output immediately after the codeblock 
+A plugin to evaluate a code block defined within a markdown file, appending the printed output immediately after the codeblock 
 
 ## Example
 
 With cursor (anywhere) within the code block, run *:call Execute_Block()*
 
 ```
-{{{python
+\```python
 
 
-}}}
+\```
 --> The block output is appended immediately after the block
 ```
 
@@ -20,7 +20,7 @@ E.g., using [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```
 Plug 'ryanbrate/functional.vim'
-Plug 'ryanbrate/markdown_block_runner'
+Plug 'ryanbrate/markdown_block_runner.vim'
 ```
 
 ## set vimrc variables
