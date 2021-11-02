@@ -1,4 +1,4 @@
-# vimwiki\_block\_runner.vim
+# markdown\_block\_runner.vim
 
 A plugin to evaluate a code block defined within a markdown file, appending the printed output immediately after the codeblock 
 
@@ -42,5 +42,9 @@ Where *%s* denotes the code block to be executed
 augroup FileType markdown
     au! 
     au Filetype markdown nnoremap <buffer> <Leader>wb call Execute_Block()
+
+    " alternative - using a shortcut command
+    au Filetype markdown command RunBlock exec 'call Execute_Block()'
+
 augroup END
 ```

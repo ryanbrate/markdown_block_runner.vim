@@ -19,6 +19,8 @@ function! Get_block_extents(delimiters) abort
     "   respectively.
     "
     " Note: where not in block, empty list returned
+    
+    let l:delimiters = [join(a:delimiters[0], ''), a:delimiters[1]]
 
     " find the line numbers of all delimeters in the buffer
     let l:delim_positions = Filter(
@@ -28,19 +30,19 @@ function! Get_block_extents(delimiters) abort
 
     " retrieve type of previous delimiter
     let l:previous_line = max(Filter({i -> i<line('.')}, l:delim_positions))
-    let l:previous = getline(l:previous_line) =~ a:delimiters[0] ? 1 :
-                \getline(l:previous_line) =~ a:delimiters[1] ? 2 :
+    let l:previous = getline(l:previous_line) =~ l:delimiters[0] ? 1 :
+                \getline(l:previous_line) =~ l:delimiters[1] ? 2 :
                 \0 " where 1 = opening, 2 = closing, 0 = none
-    
+
     " retrieve type of next delimeter
     let l:next_line = min(Filter({i -> i>line('.')}, l:delim_positions))
-    let l:next = getline(l:next_line) =~ a:delimiters[0] ? 1 :
-                \getline(l:next_line) =~ a:delimiters[1] ? 2 :
+    let l:next = getline(l:next_line) =~ l:delimiters[0] ? 1 :
+                \getline(l:next_line) =~ l:delimiters[1] ? 2 :
                 \0 " where 1 = opening, 2 = closing, 0 = none
 
     " get the delimiters on the current line
-    let l:current = getline('.') =~ a:delimiters[0]? 1 : 
-                \getline('.') =~ a:delimiters[1] ? 2 :
+    let l:current = getline('.') =~ l:delimiters[0]? 1 : 
+                \getline('.') =~ l:delimiters[1] ? 2 :
                 \0 " where 1 = opening, 2 = closing, 0 = none
 
     " handle return based on scenario...
@@ -88,7 +90,7 @@ function! Get_block(delimiters = ['```', '```'], temp_file = $HOME . '/.vim/plug
     " Returns:
     "   if in a block: [block_type, block_entents, temp_file_path]
     "   else: 0
-
+    
     " get the line numbers of current block
     let l:block_extents = Get_block_extents(a:delimiters)    
     echom 'block extents = ' . join(l:block_extents, ', ')
@@ -97,7 +99,7 @@ function! Get_block(delimiters = ['```', '```'], temp_file = $HOME . '/.vim/plug
     if len(l:block_extents) != 0 " cursor is in a block
 
         " Get the block type
-        let l:block_type = split(getline(l:block_extents[0]), a:delimiters[0])[0]
+        let l:block_type = split(getline(l:block_extents[0]), a:delimiters[0][0])[0]
         echom printf('block type = %s', l:block_type)
 
         " write the block contents to temp file
